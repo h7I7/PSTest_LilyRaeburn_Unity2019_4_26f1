@@ -4,7 +4,7 @@
 // Description: Manages game fading
 // Date Created: 11/05/2021
 // Last Edit: 11/05/2021
-// Comments: 
+// Comments: Singleton class
 ////////////////////////////////////////////////////////////
 
 using System.Collections;
@@ -34,7 +34,7 @@ public class FadeInfo
 [RequireComponent(typeof(GameManager))]
 public class FadeManager : MonoBehaviour
 {
-
+    #region Variables
     // The overlay image for fading
     [SerializeField] private Image m_imageFader = null;
 
@@ -45,7 +45,9 @@ public class FadeManager : MonoBehaviour
     {
         get { return m_fading; }
     }
+    #endregion // Variables
 
+    #region Functions
     /// <summary>
     /// Fades the overlay fading image, blocks raycasting by default
     /// </summary>
@@ -102,4 +104,5 @@ public class FadeManager : MonoBehaviour
         m_fading = false;
         m_currentRoutine = null;
     }
+    #endregion // Functions
 }

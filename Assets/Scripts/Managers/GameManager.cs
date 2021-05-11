@@ -2,8 +2,8 @@
 // Author: Lily Raeburn
 // File Name: GameManager.cs
 // Description: Manages game variables, functions, and states.
-// Date Created:    11/05/2021
-// Last Edit:       11/05/2021
+// Date Created: 11/05/2021
+// Last Edit: 11/05/2021
 // Comments: Singleton class
 //////////////////////////////////////////////////
 
