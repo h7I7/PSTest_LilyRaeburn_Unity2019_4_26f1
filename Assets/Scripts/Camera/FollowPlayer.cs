@@ -35,14 +35,11 @@ public class FollowPlayer : MonoBehaviour
     private void Follow()
     {
         Vector3 forward = m_targetTransform.TransformDirection(Vector3.forward);
-        Vector3 position = new Vector3(
-            m_targetTransform.position.x * forward.x,
-            m_targetTransform.position.y * forward.y,
-            m_targetTransform.position.z * forward.z
-            );
-        Vector3 posTarget = position + m_positionOffset;
+        Vector3 up = m_targetTransform.up;
+        Vector3 posTarget = new Vector3(m_targetTransform.position.x * forward.x, 0f, m_targetTransform.position.z * forward.z) + (forward * m_positionOffset.z) + (up * m_positionOffset.y);
 
         transform.position = posTarget;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, m_targetTransform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
     #endregion // Functions
 }

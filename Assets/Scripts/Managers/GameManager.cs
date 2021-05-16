@@ -3,7 +3,7 @@
 // File Name: GameManager.cs
 // Description: Manages game variables, functions, and states.
 // Date Created: 11/05/2021
-// Last Edit: 11/05/2021
+// Last Edit: 13/05/2021
 // Comments: Singleton class
 //////////////////////////////////////////////////
 
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialise();
+        SeedRandom();
     }
 
     /// <summary>
@@ -51,6 +52,15 @@ public class GameManager : MonoBehaviour
 
         // Setting other manager object handles
         m_fadeManager = GetComponent<FadeManager>();
+
+        // Setting the game to single touch mode 
+        Input.multiTouchEnabled = false;
+    }
+
+    private void SeedRandom()
+    {
+        int seed = (int)(System.DateTime.Now.Ticks * Input.mousePosition.x * Input.mousePosition.y);
+        UnityEngine.Random.InitState(seed);
     }
 
     private void Start()
