@@ -43,10 +43,9 @@ Shader "Custom/World Curve"
 
         void vert(inout appdata_full v)
         {
-            float radius = 0.003f;
             float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz - _PlayerPosition.xyz;
             float scaleY = ObjectScale().y;
-            v.vertex.y -= ((worldPos.z * worldPos.z * radius) + (worldPos.x * worldPos.x * radius)) / scaleY;
+            v.vertex.y -= ((worldPos.z * worldPos.z * _Radius) + (worldPos.x * worldPos.x * _Radius)) / scaleY;
         }
 
         sampler2D _MainTex;

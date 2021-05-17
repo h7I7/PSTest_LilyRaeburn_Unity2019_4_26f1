@@ -131,5 +131,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public void SetHighscore(int a_score)
+    {
+        int highscore = GetHighscore();
+        if (a_score > highscore)
+            PlayerPrefs.SetInt("highscore", a_score);
+    }
+
+    public int GetHighscore()
+    {
+        return PlayerPrefs.GetInt("highscore", 0); ;
+    }
     #endregion // Functions
 }

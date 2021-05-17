@@ -71,10 +71,14 @@
     <Compile Include="Assets\Scripts\Managers\FadeManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\UI\GemCounter.cs" />
+    <Compile Include="Assets\Scripts\UI\HighscoreCounter.cs" />
+    <Compile Include="Assets\Scripts\UI\LifeCounter.cs" />
+    <Compile Include="Assets\Scripts\UI\MultiplierCounter.cs" />
     <Compile Include="Assets\Scripts\UI\StartGame.cs" />
     <Compile Include="Assets\Scripts\World\WorldGenerator.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Credited Assets.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Asset Store\Supercyan Character Pack Free Sample\Shaders\Legacy\CelShader.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
@@ -87,7 +91,6 @@
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\Asset Store\Asset Store.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />

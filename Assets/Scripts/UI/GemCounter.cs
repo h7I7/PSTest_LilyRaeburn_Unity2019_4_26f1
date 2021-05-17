@@ -20,7 +20,11 @@ public class GemCounter : MonoBehaviour
     [SerializeField] private Camera m_camera;
 
     private TextMeshProUGUI m_counter;
-    private int m_currentGems = 0;
+    private int m_gems = 0;
+    public int Gems
+    { 
+        get { return m_gems; }
+    }
     #endregion // Variables
 
     #region Functions
@@ -62,8 +66,8 @@ public class GemCounter : MonoBehaviour
 
     private void AddGem()
     {
-        ++m_currentGems;
-        m_counter.text = m_currentGems.ToString();
+        ++m_gems;
+        m_counter.text = m_gems.ToString();
     }
     #endregion // Functions
 }

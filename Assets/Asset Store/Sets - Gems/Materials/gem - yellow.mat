@@ -42,7 +42,6 @@ Material:
     - _IndexOfRefraction: 2.14
     - _Radius: 0.002
     - _ReflectionStrength: 1.75
-    - _VerticalOffset: 0
     m_Colors:
     - _Color: {r: 1, g: 0.8784314, b: 0, a: 1}
 --- !u!1002 &2100001
