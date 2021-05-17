@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // Author: Lily Raeburn
 // File Name: FollowPlayer.cs
-// Description: 
+// Description: Attaches to the main camera in the game scenes tracks the player
 // Date Created: 11/05/2021
 // Last Edit: 11/05/2021
 // Comments: 
