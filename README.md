@@ -23,10 +23,10 @@
   
   ===== WHAT WOULD I HAVE DONE DIFFERENTLY =====
   -Make the level generation more modular. The tile based system is quick to put together but if I had more time I would like to have put some more complexity and fine tuning into it. Currently the tile based system is quite inflexible.
-  -Add corners and turns to the level generation. Although this is something I breifly attempted, due to the time constraints I wasn't able to fully implement this feature.
+  -Add corners and turns to the level generation. Although this is something I briefly attempted, due to the time constraints I wasn't able to fully implement this feature.
   -Add powerups and more pickups. The game is in dire need of health pickups, powerups (such as bonus gems, take no damage for a period of time, move faster, move slower, jump higher, etc.), and maybe even some incentive to spend gems in game to unlock paths or interact with NPCs.
   -Extra lives for watching an ad. When the player runs out of lives they are sent to the menu screen, however it would be a better idea to give the player the choice of watching an ad for a second chance and a few extra lives.
-  -Permenant upgrades. It could be intersting to add a shop where the player could spend in-game or premium currency for permenant upgrades such as more lives, bonus gems, or even cosmetics like skins and accessories.
+  -Permanant upgrades. It could be interesting to add a shop where the player could spend in-game or premium currency for permanant upgrades such as more lives, bonus gems, or even cosmetics like skins and accessories.
   -Sound effects. This demo has no sound which is a shame. Obviously it would liven things up quite a lot with some music and sound effects.
   
   ===== ASSET CREDITS =====
@@ -39,4 +39,4 @@
   https://www.dafont.com/reglisse.font
   
   ===== TIME SPENT ON PROJECT =====
-  I spent roughly 15 hours on this project, mostly in increments of 3-4 hours.
+  I spent roughly 16 hours on this project, mostly in increments of 3-4 hours.

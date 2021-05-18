@@ -15,20 +15,23 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private Transform m_targetTransform;
+    [SerializeField] private Transform m_targetTransform = null;
 
-    [SerializeField] private Vector3 m_positionOffset;
-    #endregion // Variables
+    [SerializeField] private Vector3 m_positionOffset = Vector3.zero;
+    #endregion Variables
 
     #region Functions
-    private void Update()
+    private void Awake()
     {
         if (m_targetTransform == null)
         {
             enabled = false;
             return;
         }
+    }
 
+    private void Update()
+    {
         Follow();
     }
 
@@ -41,5 +44,5 @@ public class FollowPlayer : MonoBehaviour
         transform.position = posTarget;
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, m_targetTransform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
-    #endregion // Functions
+    #endregion Functions
 }

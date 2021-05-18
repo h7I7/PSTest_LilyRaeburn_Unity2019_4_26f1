@@ -12,9 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// A nullable struct that makes passing fader info into scene loading functions easier
-/// </summary>
+// A nullable structure that makes passing fader info into scene loading functions easier
 public class FadeInfo
 {
     public float alpha1;
@@ -45,45 +43,33 @@ public class FadeManager : MonoBehaviour
     {
         get { return m_fading; }
     }
-    #endregion // Variables
+    #endregion Variables
 
     #region Functions
-    /// <summary>
-    /// Fades the overlay fading image, blocks raycasting by default
-    /// </summary>
-    /// <param name="a_alpha"></param>
-    /// <param name="a_speed"></param>
-    /// <param name="a_blockRaycast"></param>
-    /// <returns></returns>
-    public bool Fade(float a_alpha, float a_speed = 1f, bool a_blockRaycast = true)
+    // Fades the overlay fading image, blocks raycasting by default
+    public bool Fade(float a_targetAlpha, float a_speed = 1f, bool a_blockRaycast = true)
     {
         // Return false if another fade is already running
         if (m_currentRoutine != null)
             return false;
 
         m_fading = true;
-        m_currentRoutine = FadeIE(a_alpha, a_speed, a_blockRaycast);
+        m_currentRoutine = FadeIE(a_targetAlpha, a_speed, a_blockRaycast);
         StartCoroutine(m_currentRoutine);
         return true;
     }
 
-    /// <summary>
-    /// Fades the overlay fading image, blocks raycasting by default
-    /// </summary>
-    /// <param name="a_alpha"></param>
-    /// <param name="a_speed"></param>
-    /// <param name="a_blockRaycast"></param>
-    /// <returns></returns>
-    private IEnumerator FadeIE(float a_alpha, float a_speed, bool a_blockRaycast = true)
+    private IEnumerator FadeIE(float a_targetAlpha, float a_speed, bool a_blockRaycast = true)
     {
         if (a_blockRaycast)
             m_imageFader.raycastTarget = true;
 
-        float alphaPerSecond = (a_alpha - m_imageFader.color.a) / a_speed;
+        float alphaPerSecond = (a_targetAlpha - m_imageFader.color.a) / a_speed;
 
+        // Order alphas in ascending order so that the time passed can be used to adjust the fade image alpha regardless of whether the image is fading in or out
         float startAlpha = m_imageFader.color.a;
         float minClamp = startAlpha;
-        float maxClamp = a_alpha;
+        float maxClamp = a_targetAlpha;
 
         if (minClamp > maxClamp)
         {
@@ -92,7 +78,8 @@ public class FadeManager : MonoBehaviour
             maxClamp = temp;
         }
 
-        while (m_imageFader.color.a != a_alpha)
+        // Fade the image over time
+        while (m_imageFader.color.a != a_targetAlpha)
         {
             Color temp = m_imageFader.color;
             temp.a = Mathf.Clamp((alphaPerSecond * Time.deltaTime) + temp.a, minClamp, maxClamp);
@@ -104,5 +91,5 @@ public class FadeManager : MonoBehaviour
         m_fading = false;
         m_currentRoutine = null;
     }
-    #endregion // Functions
+    #endregion Functions
 }

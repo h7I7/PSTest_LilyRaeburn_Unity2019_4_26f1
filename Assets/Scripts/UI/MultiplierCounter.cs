@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // Author: Lily Raeburn
 // File Name: MultiplierCounter.cs
-// Description: 
+// Description: Displays the current run speed multiplier
 // Date Created: 17/05/2021
 // Last Edit: 17/05/2021
 // Comments: 
@@ -16,11 +16,11 @@ using TMPro;
 public class MultiplierCounter : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private GemCounter m_gemCounter;
-    [SerializeField] private Transform m_playerTransform;
-    [SerializeField] private float m_multiplierAdjust;
+    [SerializeField] private GemCounter m_gemCounter = null;
+    [SerializeField] private Transform m_playerTransform = null;
+    [SerializeField] private float m_multiplierAdjust = 0.0001f;
 
-    private TextMeshProUGUI m_counter;
+    private TextMeshProUGUI m_counter = null;
 
     private float m_multiplier = 1f;
     public float Multiplier

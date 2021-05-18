@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // Author: Lily Raeburn
 // File Name: LifeCounter.cs
-// Description: 
+// Description: Displays the amount of lives
 // Date Created: 16/05/2021
 // Last Edit: 16/05/2021
 // Comments: 
@@ -22,9 +22,9 @@ public class LifeCounter : MonoBehaviour
         get { return m_lives; }
     }
 
-    private TextMeshProUGUI m_counter;
-    private IEnumerator m_currentEnumerator = null;
-    #endregion // Variables
+    private TextMeshProUGUI m_counter = null;
+    private IEnumerator m_currentEnumerator = null; // Used for the colour animation
+    #endregion Variables
 
     #region Functions
     private void Awake()
@@ -39,9 +39,11 @@ public class LifeCounter : MonoBehaviour
 
     public void RemoveLife()
     {
+        // Updating lives
         --m_lives;
         UpdateCounter();
 
+        // Life counter colour animation
         if (m_currentEnumerator != null)
             StopCoroutine(m_currentEnumerator);
 
@@ -58,6 +60,7 @@ public class LifeCounter : MonoBehaviour
     {
         m_counter.color = a_start;
 
+        // Animate text colour over time
         float startTime = Time.time;
         while(m_counter.color != a_finish)
         {
@@ -65,5 +68,5 @@ public class LifeCounter : MonoBehaviour
             yield return 0;
         }
     }
-    #endregion // Functions
+    #endregion Functions
 }

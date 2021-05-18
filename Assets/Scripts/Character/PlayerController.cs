@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // Author: Lily Raeburn
 // File Name: PlayerController.cs
-// Description: 
+// Description: Manages user input, character physics, and collision interactions
 // Date Created: 11/05/2021
 // Last Edit: 16/05/2021
 // Comments: 
@@ -26,30 +26,40 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField] private PlayerStates m_playerState = PlayerStates.idle;
+
+    [Space(10f)]
+    [Header("Movement")]
     [SerializeField] private float m_playerRunSpeed = 5.0f;
     [SerializeField] private float m_playerMoveSpeed = 5.0f;
     [SerializeField] private float m_jumpStrength = 1.0f;
-    [SerializeField] private float m_jumpThreshold = 0.05f;
-    [SerializeField] private float m_gravity = 0.2f;
+    [SerializeField] private float m_swipeThreshold = 0.05f;
+    [SerializeField] private float m_gravity = 45f;
+    // These variables apply when the player takes damage
     [SerializeField] private float m_hitForceMultiplier = 5f;
     [SerializeField] private float m_hitGravityMultiplier = 0.5f;
+
+    [Space(10f)]
+    [Header("Animation")]
     [SerializeField] private float m_flashFrequency = 0.25f;
     [SerializeField] private float m_flashes = 3;
 
-    private Vector3 m_moveDir = Vector3.zero;
+    [SerializeField] private Animator m_animator = null;
 
-    [SerializeField] private Animator m_animator;
-    [SerializeField] private Camera m_camera;
+    [Space(10f)]
+    [Header("Counters")]
+    [SerializeField] private GemCounter m_gemCounter = null;
+    [SerializeField] private LifeCounter m_lifeCounter = null;
+    [SerializeField] private MultiplierCounter m_multiplierCounter = null;
 
-    [SerializeField] private GemCounter m_gemCounter;
-    [SerializeField] private LifeCounter m_lifeCounter;
-    [SerializeField] private MultiplierCounter m_multiplierCounter;
+    [Space(10f)]
+    [Header("Rendering")]
+    [SerializeField] private Camera m_camera = null;
+    [SerializeField] private Renderer m_renderer = null;
 
-    [SerializeField] private Renderer m_renderer;
-
-    private CharacterController m_cc;
+    private CharacterController m_cc = null;
+    private Vector3 m_moveDir = Vector3.zero; // Applied to the character every frame
     private Vector3 m_mousePositionPrevious = Vector3.zero;
-    #endregion // Variables
+    #endregion Variables
 
     #region Functions
     private void Awake()
@@ -85,6 +95,8 @@ public class PlayerController : MonoBehaviour
                     Vector3 playerInScreenSpace = m_camera.WorldToScreenPoint(transform.position);
                     Vector3 playerToMouse = mousePos - playerInScreenSpace;
 
+                    // Move the player based on the distance from the player to the mouse on the x axis in screen space
+                    // I intended to add turns to the level, however since the world is straight some of these calculations might be redundant
                     Vector3 moveDir = (playerForward * m_playerRunSpeed * m_multiplierCounter.Multiplier) + ((playerRight * playerToMouse.x * m_playerMoveSpeed) / m_camera.pixelWidth);
 
                     m_moveDir.x = moveDir.x;
@@ -92,8 +104,9 @@ public class PlayerController : MonoBehaviour
 
                     if (m_cc.isGrounded)
                     {
+                        // Checking for a swipe up
                         float mousePosDifference = Mathf.Max(mousePos.y - m_mousePositionPrevious.y, 0f) / m_camera.pixelHeight;
-                        if (mousePosDifference > m_jumpThreshold)
+                        if (mousePosDifference > m_swipeThreshold)
                         {
                             m_animator.Play("jump-up");
                             m_moveDir.y = m_jumpStrength;
@@ -101,17 +114,17 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        m_moveDir.y -= m_gravity;
+                        m_moveDir.y -= m_gravity * Time.deltaTime;
                     }
 
                     m_cc.Move(m_moveDir * Time.deltaTime);
 
                     m_mousePositionPrevious = mousePos;
-
                     break;
                 }
             case PlayerStates.hit:
                 {
+                    // Do not process input when player is in the hit state
                     break;
                 }
         }
@@ -119,15 +132,18 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateShaders()
     {
+        // Setting variables used in the WorldCurve shader
         switch(m_playerState)
         {
             case PlayerStates.menu:
                 {
+                    // When we are in the menu we do not want any adjustments to the vertex positions of the world geometry
                     Shader.SetGlobalVector("_PlayerPosition", new Vector3(0, 0, 0));
                     break;
                 }
             default:
                 {
+                    // Any other time we want to set the play position in the shader so that the world curves as the player moves
                     Shader.SetGlobalVector("_PlayerPosition", transform.position);
                     break;
                 }
@@ -141,6 +157,7 @@ public class PlayerController : MonoBehaviour
             case PlayerStates.menu: break;
             case PlayerStates.idle:
                 {
+                    // Play idle animation
                     AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
                     if (!info.IsName("idle"))
                         m_animator.Play("idle");
@@ -148,6 +165,7 @@ public class PlayerController : MonoBehaviour
                 }
             case PlayerStates.running:
                 {
+                    // When grounded play the jump-down animation (which leads to the run animation) if jump-down and run are not currently being played
                     AnimatorStateInfo info = m_animator.GetCurrentAnimatorStateInfo(0);
                     if (m_cc.isGrounded && !info.IsName("run") && !info.IsName("jump-down"))
                     {
@@ -157,6 +175,7 @@ public class PlayerController : MonoBehaviour
                 }
             case PlayerStates.hit:
                 {
+                    // When hit do not change animation
                     break;
                 }
         }
@@ -168,12 +187,15 @@ public class PlayerController : MonoBehaviour
         {
             case "Gem":
                 {
+                    // When colliding with a gem have the gem counter collect it and disable the gems collider
                     m_gemCounter.CollectGem(other.transform);
                     other.enabled = false;
                     break;
                 }
             case "Obstacle":
                 {
+                    // When colliding with an obstacle have the player take damage
+                    // If the player is already in the hit animation disable the collider so the player doesn't take too much damage
                     if (m_playerState == PlayerStates.running)
                         PlayerHit();
                     else if (m_playerState == PlayerStates.hit)
@@ -198,9 +220,11 @@ public class PlayerController : MonoBehaviour
 
         m_lifeCounter.RemoveLife();
 
+        // Knock the player back to give the damage some impact
         Vector3 moveDir = transform.TransformDirection(Vector3.back) * m_hitForceMultiplier;
         moveDir.y += m_jumpStrength;
 
+        // Manages the player animations and position whilst in the hit state
         float time = Time.time;
         int flashCount = 0;
         while (flashCount < m_flashes * 2)
@@ -228,6 +252,7 @@ public class PlayerController : MonoBehaviour
             yield return 0;
         }
 
+        // If the player has more lives keep running, otherwise go back to the menu
         if (m_lifeCounter.Lives > 0)
             m_playerState = PlayerStates.running;
         else
@@ -239,5 +264,5 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    #endregion // Functions
+    #endregion Functions
 }

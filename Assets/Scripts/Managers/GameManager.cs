@@ -15,7 +15,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Variables
-
     // Handles for singleton manager objects
     private static GameManager m_gameManager = null;
     public static GameManager m_GameManager
@@ -28,8 +27,7 @@ public class GameManager : MonoBehaviour
     {
         get { return m_fadeManager; }
     }
-
-    #endregion // Variables
+    #endregion Variables
 
     #region Functions
 
@@ -39,9 +37,6 @@ public class GameManager : MonoBehaviour
         SeedRandom();
     }
 
-    /// <summary>
-    /// Setting handles to manager objects
-    /// </summary>
     private void Initialise()
     {
         // Checking and setting the GameManager
@@ -65,26 +60,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Load the menu scene
         LoadScene(1, new FadeInfo(1f, 0f), false);
     }
 
-    /// <summary>
-    /// Loading scenes packed into one function
-    /// </summary>
-    /// <param name="a_scene">The scene build index to load</param>
-    /// <param name="a_fadeInfo">Fader info if we need fading</param>
-    /// <param name="a_additive">Do we want to load additively?</param>
+    // Loading scenes with an IEnumerator allows for fading
     public void LoadScene(int a_scene, FadeInfo a_fadeInfo, bool a_additive = true)
     {
         StartCoroutine(LoadSceneIE(a_scene, a_fadeInfo, a_additive));
     }
 
-    /// <summary>
-    /// The IEnumerator for loading scenes
-    /// </summary>
-    /// <param name="a_scene">The scene build index to load</param>
-    /// <param name="a_fadeInfo">Fader info if we need fading</param>
-    /// <param name="a_additive">Do we want to load additively?</param>
     private IEnumerator LoadSceneIE(int a_scene, FadeInfo a_fadeInfo, bool a_additive)
     {
         // Start pre-loading scene
@@ -135,6 +120,7 @@ public class GameManager : MonoBehaviour
     public void SetHighscore(int a_score)
     {
         int highscore = GetHighscore();
+        // Check that the score passed in is larger than the stored highscore
         if (a_score > highscore)
             PlayerPrefs.SetInt("highscore", a_score);
     }
@@ -143,5 +129,5 @@ public class GameManager : MonoBehaviour
     {
         return PlayerPrefs.GetInt("highscore", 0); ;
     }
-    #endregion // Functions
+    #endregion Functions
 }
